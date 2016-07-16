@@ -1,0 +1,17 @@
+checkout:
+  post:
+    - git submodule update --init --recursive
+
+dependencies:
+  cache_directories:
+    - kanjivg
+
+general:
+  artifacts:
+    - converted
+
+deployment:
+  master:
+    branch: master
+    commands:
+      - python kanimaji.py
