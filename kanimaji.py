@@ -16,6 +16,7 @@ from textwrap import dedent as d
 
 from lxml import etree
 from lxml.builder import E
+from tqdm import tqdm
 
 import bezier_cubic
 from settings import *
@@ -82,7 +83,6 @@ etree.register_namespace("xlink","http://www.w3.org/1999/xlink")
 parser = etree.XMLParser(remove_blank_text=True)
 
 def create_animation(filename):
-    print('processing %s' % filename)
     filename_noext = re.sub(r'\.[^\.]+$','',filename)
     filename_noext_ascii = re.sub(r'\\([\\u])','\\1',
                             json.dumps(filename_noext))[1:-1]
@@ -411,9 +411,14 @@ def create_animation(filename):
         style = E.style(animated_css, id="style-Kanimaji")
         doc.getroot().insert(0, style)
         svgfile = filename_noext + '_anim.svg'
-        doc.write(svgfile, pretty_print=True)
+        output_dir = os.path.join(OUTPUT_DIR, 'svg')
+        try:
+            os.makedirs(output_dir)
+        except OSError:
+            pass
+        output_path = os.path.join(output_dir, os.path.basename(svgfile))
+        doc.write(output_path, pretty_print=True)
         doc.getroot().remove(style)
-        print 'written %s' % svgfile
 
     if GENERATE_GIF:
         svgframefiles = []
@@ -430,9 +435,14 @@ def create_animation(filename):
 
             style = E.style(static_css[k], id="style-Kanimaji")
             doc.getroot().insert(0, style)
-            doc.write(svgframefile, pretty_print=True)
+            output_dir = os.path.join(OUTPUT_DIR, 'gif')
+            try:
+                os.makedirs(output_dir)
+            except OSError:
+                pass
+            output_path = os.path.join(output_dir, os.path.basename(svgframefile))
+            doc.write(output_path, pretty_print=True)
             doc.getroot().remove(style)
-            print 'written %s' % svgframefile
 
         # create json file
         svgexport_datafile = filename_noext_ascii+"_export_data.json"
@@ -500,7 +510,6 @@ def create_animation(filename):
             os.remove(giffile_tmp2)
 
     if GENERATE_JS_SVG:
-
         f0insert = [bg_g, anim_g]
         if SHOW_BRUSH: f0insert += [brush_g, brush_brd_g]
         for g in f0insert:
@@ -519,9 +528,14 @@ def create_animation(filename):
         style = E.style(js_animated_css, id="style-Kanimaji")
         doc.getroot().insert(0, style)
         svgfile = filename_noext + '_js_anim.svg'
-        doc.write(svgfile, pretty_print=True)
+        output_dir = os.path.join(OUTPUT_DIR, 'js_svg')
+        try:
+            os.makedirs(output_dir)
+        except OSError:
+            pass
+        output_path = os.path.join(output_dir, os.path.basename(svgfile))
+        doc.write(output_path, pretty_print=True)
         doc.getroot().remove(style)
-        print 'written %s' % svgfile
 
 if GENERATE_GIF and GIF_BACKGROUND_COLOR == 'transparent' and not GIF_ALLOW_TRANSPARENT:
     exit(d("""
@@ -532,7 +546,16 @@ if GENERATE_GIF and GIF_BACKGROUND_COLOR == 'transparent' and not GIF_ALLOW_TRAN
     ******************************************************************
     """))
 
-args = deepcopy(sys.argv)
-del args[0]
-for a in args:
-    create_animation(a)
+
+def clear_converted():
+    for ext in ['svg', 'gif']:
+        for converted_file in glob.glob(os.path.join(OUTPUT_DIR, '*.' + ext)):
+            os.remove(converted_file)
+
+
+clear_converted()
+
+
+for svg_path in tqdm(glob.glob(os.path.join(KANJIVG_SVG_DIR, '*.svg')),
+                     mininterval=0.5, miniters=5):
+    create_animation(svg_path)

@@ -33,11 +33,15 @@ If you want to be able to generate animated GIF, you will also need:
 
 ## Usage ##
 
-Just run
+To download the KanjiVG SVGs to be animated, run `git submodule update --init --recursive`.
+
+Update `settings.py` with `GENERATE_GIF = True` if you want to generate GIFs.
+
+Then just run
 ```
-./kanimaji.py file1.svg file2.svg ...
+./kanimaji.py
 ```
-where the files are KanjiVG SVG files (could work with other SVG files, but it hasn't been tested).
+and the converted files will appear in `./converted/`.
 
 ## Settings ##
 

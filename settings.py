@@ -1,5 +1,7 @@
-
 import math
+
+KANJIVG_SVG_DIR = './kanjivg/kanji/'
+OUTPUT_DIR = './converted/'
 
 # *_BORDER_WIDTH is the width INCLUDING the border.
 STOKE_BORDER_WIDTH   = 4.5
@@ -31,7 +33,7 @@ GIF_ALLOW_TRANSPARENT  = False
 # edit here to decide what will be generated
 GENERATE_SVG           = True
 GENERATE_JS_SVG        = True
-GENERATE_GIF           = True
+GENERATE_GIF           = False
 
 # sqrt, ie a stroke 4 times the length is drawn
 # at twice the speed, in twice the time.
