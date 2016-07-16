@@ -17,6 +17,7 @@ setup(
     install_requires=[
         'svg.path',
         'tqdm',
+        'lxml',
     ],
     zip_safe=False,
 )
