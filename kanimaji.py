@@ -1,15 +1,25 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import re, math, glob, os, sys, json
+import glob
+import json
+import math
+import os
+import re
+import sys
+from copy import deepcopy
+from os.path import (
+    abspath,
+    basename,
+)
+from textwrap import dedent as d
+
 from lxml import etree
 from lxml.builder import E
-from svg.path import parse_path
-from os.path import basename, abspath
-from copy import deepcopy
-from textwrap import dedent as d
+
 import bezier_cubic
 from settings import *
+from svg.path import parse_path
 
 
 def compute_path_len(path):
@@ -96,11 +106,11 @@ def create_animation(filename):
     if SHOW_BRUSH:
         brush_g = E.g(id = 'kvg:'+baseid+'-brush-Kanimaji',
                 style = ('fill:none;stroke:%s;stroke-width:%f;'+
-                'stroke-linecap:round;stroke-linejoin:round;') % 
+                'stroke-linecap:round;stroke-linejoin:round;') %
                 (BRUSH_COLOR, BRUSH_WIDTH))
         brush_brd_g = E.g(id = 'kvg:'+baseid+'-brush-brd-Kanimaji',
                 style = ('fill:none;stroke:%s;stroke-width:%f;'+
-                'stroke-linecap:round;stroke-linejoin:round;') % 
+                'stroke-linecap:round;stroke-linejoin:round;') %
                 (BRUSH_BORDER_COLOR, BRUSH_BORDER_WIDTH))
 
     # compute total length and time, at first
@@ -247,7 +257,7 @@ def create_animation(filename):
                         stroke-dashoffset: 0;
                         animation: strike-%s %.03fs %s infinite,
                             showhide-%s %.03fs step-start infinite;
-                    }""" % (anim_pathidcss, pathlen, pathlen, 
+                    }""" % (anim_pathidcss, pathlen, pathlen,
                             pathname, animation_time,
                             TIMING_FUNCTION,
                             pathname, animation_time))
@@ -268,14 +278,14 @@ def create_animation(filename):
                             animation: strike-%s %.03fs %s infinite,
                                 showhide-brush-%s %.03fs step-start infinite;
                         }""" % (brush_pathidcss, brush_brd_pathidcss,
-                            pathlen, 
+                            pathlen,
                             pathname, animation_time, TIMING_FUNCTION,
                             pathname, animation_time))
 
             if GENERATE_JS_SVG:
                 js_animated_css += d("""\n
                     /* stroke %s */""" % pathid)
-                
+
                 # brush and background hidden by default
                 if SHOW_BRUSH:
                     js_animated_css += d("""
@@ -324,8 +334,8 @@ def create_animation(filename):
                             stroke-dasharray: 0 %.03f;
                             visibility: visible;
                             animation: strike-brush-%s %.03fs %s forwards 1;
-                        }""") % (brush_pathidcss, brush_brd_pathidcss, 
-                                pathlen, 
+                        }""") % (brush_pathidcss, brush_brd_pathidcss,
+                                pathlen,
                                 pathname, relduration, TIMING_FUNCTION)
 
             if GENERATE_GIF:
@@ -355,7 +365,7 @@ def create_animation(filename):
                                 visibility: hidden;
                             }""" % (rule))
                     else:
-                        intervalprop = ((reltime-elapsedtime) / 
+                        intervalprop = ((reltime-elapsedtime) /
                                     (newelapsedtime-elapsedtime))
                         progression = my_timing_func(intervalprop)
                         static_css[k] += d("""
@@ -363,7 +373,7 @@ def create_animation(filename):
                                 stroke-dasharray: %.03f %.03f;
                                 stroke-dashoffset: %.04f;
                                 stroke: %s;
-                            }""" % (anim_pathidcss, pathlen, pathlen+0.002, 
+                            }""" % (anim_pathidcss, pathlen, pathlen+0.002,
                                 pathlen * (1-progression)+0.0015,
                                 STOKE_FILLING_COLOR))
                         if SHOW_BRUSH:
@@ -377,8 +387,8 @@ def create_animation(filename):
 
             elapsedlen = newelapsedlen
             elapsedtime = newelapsedtime
-            
-    
+
+
     # insert groups
     if SHOW_BRUSH and not SHOW_BRUSH_FRONT_BORDER:
         doc.getroot().append(brush_brd_g)
@@ -407,7 +417,7 @@ def create_animation(filename):
             svgframefiles.append(svgframefile)
             pngframefiles.append(pngframefile)
             svgexport_data.append({"input": [abspath(svgframefile)],
-                                   "output": [[abspath(pngframefile), 
+                                   "output": [[abspath(pngframefile),
                                                  "%d:%d"% (GIF_SIZE, GIF_SIZE)]]})
 
             style = E.style(static_css[k], id="style-Kanimaji")
@@ -438,7 +448,7 @@ def create_animation(filename):
         giffile_tmp2 = filename_noext + '_anim_tmp2.gif'
         giffile = filename_noext + '_anim.gif'
         escpngframefiles = ' '.join(shescape(f) for f in pngframefiles[0:-1])
-        
+
         if GIF_BACKGROUND_COLOR == 'transparent':
             bgopts = '-dispose previous'
         else:
@@ -480,12 +490,12 @@ def create_animation(filename):
             exit('Error running external command')
         if DELETE_TEMPORARY_FILES:
             os.remove(giffile_tmp2)
-        
+
     if GENERATE_JS_SVG:
-    
+
         f0insert = [bg_g, anim_g]
         if SHOW_BRUSH: f0insert += [brush_g, brush_brd_g]
-        for g in f0insert:            
+        for g in f0insert:
             el = E.a()
             el.set("data-stroke","0")
             g.insert(0, el)
