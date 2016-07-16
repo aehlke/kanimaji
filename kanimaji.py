@@ -25,8 +25,10 @@ from svg.path import parse_path
 def compute_path_len(path):
     return parse_path(path).length(error=1e-8)
 
+
 def shescape(path):
     return "'"+re.sub(r"(?=['\\\\])","\\\\",path)+"'"
+
 
 # ease, ease-in, etc:
 # https://developer.mozilla.org/en-US/docs/Web/CSS/timing-function#ease
@@ -41,20 +43,26 @@ ease_out_ct1 = bezier_cubic.pt(0.0, 0.0)
 ease_out_ct2 = bezier_cubic.pt(0.58, 1.0)
 pt2 = bezier_cubic.pt(1,1)
 
+
 def linear(x):
     return x
+
 
 def ease(x):
     return bezier_cubic.value(pt1, ease_ct1, ease_ct2, pt2, x)
 
+
 def ease_in(x):
     return bezier_cubic.value(pt1, ease_in_ct1, ease_in_ct2, pt2, x)
+
 
 def ease_in_out(x):
     return bezier_cubic.value(pt1, ease_in_out_ct1, ease_in_out_ct2, pt2, x)
 
+
 def ease_out(x):
     return bezier_cubic.value(pt1, ease_out_ct1, ease_out_ct2, pt2, x)
+
 
 timing_funcs = {
     'linear': linear,
