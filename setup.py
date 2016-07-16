@@ -17,7 +17,6 @@ setup(
     install_requires=[
         'svg.path',
         'tqdm',
-        'svgexport',
     ],
     zip_safe=False,
 )
