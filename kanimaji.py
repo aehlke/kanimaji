@@ -564,12 +564,21 @@ def clear_converted():
             os.remove(converted_file)
 
 
-def create_animations():
+def create_animations(
+    generate_svg=True,
+    generate_js_svg=False,
+    generate_gif=False,
+):
     for svg_path in tqdm(
         glob.glob(os.path.join(KANJIVG_SVG_DIR, '*.svg')),
         mininterval=0.5, miniters=5
     ):
-        create_animation(svg_path)
+        create_animation(
+            svg_path,
+            generate_svg=generate_svg,
+            generate_js_svg=generate_js_svg,
+            generate_gif=generate_gif,
+        )
 
 
 def _parse_arguments():
