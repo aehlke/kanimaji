@@ -577,6 +577,7 @@ def _parse_arguments():
     parser.add_argument('--svg', dest='generate_svg', default=True)
     parser.add_argument('--js-svg', dest='generate_js_svg', default=False)
     parser.add_argument('--gif', dest='generate_gif', default=False)
+    return parser.parse_args()
 
 
 if __name__ == '__main__':
