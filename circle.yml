@@ -9,7 +9,7 @@ dependencies:
 general:
   artifacts:
     - converted
-    - kanjivg_animated_svg.zip
+    - ~/kanjivg_animated_svg.zip
 
 deployment:
   master:
