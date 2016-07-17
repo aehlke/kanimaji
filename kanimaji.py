@@ -172,7 +172,7 @@ def create_animation(
             """)
         js_anim_els = []  # collect the ids of animating elements
         js_anim_time = [] # the time set (as default) for each animation
-    if GENERATE_GIF:
+    if generate_gif:
         static_css = {}
         last_frame_index = int(actual_animation_time/GIF_FRAME_DURATION)+1
         for i in range(0, last_frame_index+1):
@@ -193,7 +193,7 @@ def create_animation(
                 animated_css += rule
             if generate_js_svg:
                 js_animated_css += rule
-            if GENERATE_GIF:
+            if generate_gif:
                 for k in static_css: static_css[k] += rule
             continue
 
@@ -207,7 +207,7 @@ def create_animation(
             animated_css += rule
         if generate_js_svg:
             js_animated_css += rule
-        if GENERATE_GIF:
+        if generate_gif:
             for k in static_css: static_css[k] += rule
 
         for p in g.xpath(".//n:path", namespaces=namespaces):
@@ -366,7 +366,7 @@ def create_animation(
                                 pathlen,
                                 pathname, relduration, TIMING_FUNCTION)
 
-            if GENERATE_GIF:
+            if generate_gif:
                 for k in static_css:
                     time = k * GIF_FRAME_DURATION
                     reltime = time * tottime / animation_time # unscaled time
@@ -440,7 +440,7 @@ def create_animation(
         doc.write(output_path, pretty_print=True)
         doc.getroot().remove(style)
 
-    if GENERATE_GIF:
+    if generate_gif:
         svgframefiles = []
         pngframefiles = []
         svgexport_data = []
