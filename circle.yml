@@ -8,7 +8,7 @@ dependencies:
 
 general:
   artifacts:
-    - *.zip
+    - kanjivg_animated_svg.zip
 
 deployment:
   master:
@@ -16,4 +16,3 @@ deployment:
     commands:
       - python kanimaji.py --svg
       - zip -r ~/kanjivg_animated_svg.zip converted/svg
-      - zip -r ~/kanjivg_animated_js_svg.zip converted/js_svg
