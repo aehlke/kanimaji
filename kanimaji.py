@@ -71,7 +71,7 @@ timing_funcs = {
     'ease': ease,
     'ease-in': ease_in,
     'ease-in-out': ease_in_out,
-    'ease-out': ease_out
+    'ease-out': ease_out,
 }
 
 if not TIMING_FUNCTION in timing_funcs:
