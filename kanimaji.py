@@ -574,9 +574,9 @@ def create_animations():
 
 def _parse_arguments():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--svg', dest='generate_svg')
-    parser.add_argument('--js-svg', dest='generate_js_svg')
-    parser.add_argument('--gif', dest='generate_gif')
+    parser.add_argument('--svg', dest='generate_svg', default=True)
+    parser.add_argument('--js-svg', dest='generate_js_svg', default=False)
+    parser.add_argument('--gif', dest='generate_gif', default=False)
 
 
 if __name__ == '__main__':
