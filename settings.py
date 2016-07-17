@@ -30,11 +30,6 @@ GIF_BACKGROUND_COLOR   = '#ddf'
 # set to true to allow transparent background, much bigger file!
 GIF_ALLOW_TRANSPARENT  = False
 
-# edit here to decide what will be generated
-GENERATE_SVG           = True
-GENERATE_JS_SVG        = True
-GENERATE_GIF           = False
-
 # sqrt, ie a stroke 4 times the length is drawn
 # at twice the speed, in twice the time.
 def stroke_length_to_duration(length):

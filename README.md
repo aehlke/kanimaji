@@ -1,6 +1,6 @@
-# Kanimaji #
+# Kanimaji
 
-## Generation of animations ##
+## Generation of animations
 
 This is a small utility for transforming KanjiVG images into animated SVG or GIF files, or SVGs that can easily animated via Javascript (with no library dependency!).
 
@@ -20,34 +20,29 @@ This is a small utility for transforming KanjiVG images into animated SVG or GIF
 
 See the [Demo on the Project Page](http://maurimo.github.io/kanimaji/index.html).
 
-## Dependencies ##
 
-Kanimaji depends on
- * [Python 2.7]() with lxml support.
- * [svg.path](https://pypi.python.org/pypi/svg.path) Python library, for approximating path lengths.
+## Usage
 
-If you want to be able to generate animated GIF, you will also need:
- * [svgexport](https://github.com/shakiba/svgexport) Python library, for exporting SVG to PNG.
- * [ImageMagick](www.imagemagick.org)'s convert program to merge PNG's into a GIF.
- * [Gifsicle](https://www.lcdf.org/gifsicle/) to optimize GIF size.
-
-## Usage ##
+First install by running `python setup.py install`
 
 To download the KanjiVG SVGs to be animated, run `git submodule update --init --recursive`.
 
-Update `settings.py` with `GENERATE_GIF = True` if you want to generate GIFs.
+If you want to generate animated GIFs, you will need to separately install these packages:
+ * [svgexport](https://github.com/shakiba/svgexport) Node.js library for exporting SVG to PNG.
+ * [ImageMagick](https://www.imagemagick.org) to merge PNGs into a GIF.
+ * [Gifsicle](https://www.lcdf.org/gifsicle/) to optimize GIF size.
 
 Then just run
 ```
-./kanimaji.py
+./kanimaji.py --svg --js-svg --gif
 ```
-and the converted files will appear in `./converted/`.
+with whichever types of animations you want to generate as parameters, and the files will appear in `./converted/`.
 
-## Settings ##
+## Settings
 
-Just edit the settings.py file, all settings are explained there. In this file you can also enable/disable SVG, GIF, JS-SVG generation.
+Just edit the settings.py file, all settings are explained there.
 
-## License ##
+## License
 
 This software is formally released under MIT/BSD (at your option).
 You are free to do what you want with this program, please credit my work if you use it.

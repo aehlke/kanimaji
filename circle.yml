@@ -15,3 +15,5 @@ deployment:
     branch: master
     commands:
       - python kanimaji.py
+      - zip -r ~/kanjivg_animated_svg.zip converted/svg
+      - zip -r ~/kanjivg_animated_js_svg.zip converted/js_svg
