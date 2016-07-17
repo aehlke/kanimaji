@@ -8,6 +8,7 @@ dependencies:
 
 general:
   artifacts:
+    - converted
     - kanjivg_animated_svg.zip
 
 deployment:
